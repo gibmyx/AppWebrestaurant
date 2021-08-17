@@ -177,6 +177,10 @@ return [
         App\Providers\FortifyServiceProvider::class,
         App\Providers\JetstreamServiceProvider::class,
 
+        /*
+         * Provider personality
+         */
+        Apps\Backend\restaurant\User\Config\providers\UserServiceProvider::class,
     ],
 
     /*
