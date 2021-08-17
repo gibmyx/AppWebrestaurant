@@ -30,4 +30,22 @@ final class UserPostControllerTest extends TestCase
         $response->assertStatus(JsonResponse::HTTP_CREATED);
         $this->assertDatabaseHas('users', ["email" => $email]);
     }
+
+    /**
+     * @test
+     */
+    public function this_should_validate_an_existing_email()
+    {
+        $email = "gibmyx@admin.com";
+        $user = [
+            "name" => "Gibmyx Gomez",
+            "email" => $email,
+            'password' => 'password',
+            "password_confirmation" => "123456789"
+        ];
+        $this->post('/register', $user);
+
+        $response = $this->post('/register', $user);
+        $response->assertStatus(JsonResponse::HTTP_BAD_REQUEST);
+    }
 }
