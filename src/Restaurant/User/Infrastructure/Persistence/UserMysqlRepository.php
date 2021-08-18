@@ -20,6 +20,8 @@ final class UserMysqlRepository implements UserRepository
                 'email' => $user->email()->value(),
                 'password' => $user->password()->value(),
                 'origin' => $user->origin()->value(),
+                'created_at' => $user->createdAt()->value(),
+                'updated_at' => $user->updateAt()->value()
             ]);
     }
 

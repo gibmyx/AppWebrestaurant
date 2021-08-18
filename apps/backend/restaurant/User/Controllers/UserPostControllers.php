@@ -30,9 +30,9 @@ final class UserPostControllers extends Controller
             ($this->create)(new UserCreateRequest(
                 $request->name,
                 $request->email,
-                $request->password,
-                $request->password_confirmation,
-                Hash::make($request->origin)
+                Hash::make($request->password),
+                Hash::make($request->password_confirmation),
+                $request->origin
             ));
         } catch (\Exception $exception) {
             return response()->json([

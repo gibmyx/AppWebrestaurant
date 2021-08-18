@@ -12,6 +12,7 @@ class DateTimeValueObject
 
     public function __construct(string $date = 'now')
     {
+        $this->setTimezone();
         $this->date = $this->setDate($date);
     }
 
@@ -87,5 +88,10 @@ class DateTimeValueObject
     public function __toString(): string
     {
         return (string)$this->value();
+    }
+
+    private function setTimezone()
+    {
+        date_default_timezone_set('America/Caracas');
     }
 }

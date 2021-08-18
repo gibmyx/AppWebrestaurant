@@ -10,7 +10,7 @@ use AppRestaurant\Restaurant\User\Domain\Contract\UserRepository;
 use AppRestaurant\Restaurant\User\Domain\Exception\EmailExistsException;
 use AppRestaurant\Restaurant\User\Domain\ValueObject\UserEmail;
 
-final class UserExists
+final class UserEmailExists
 {
     private $repository;
 

@@ -17,8 +17,8 @@ class RouteServiceProvider extends ServiceProvider
     ];
 
     private $myCustomRouteFilesApi = [
-        'apps/backend/restaurant/User/Config/routes/web.php',
-        'routes/web.php'
+        'apps/backend/restaurant/User/Config/routes/api.php',
+        'routes/api.php'
     ];
     /**
      * The path to the "home" route for your application.
@@ -48,10 +48,13 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
+            //todo: Route Api App
+            map(function ($file) {
+                Route::prefix('api')
+                    ->middleware('api')
+                    ->namespace($this->namespace)
+                    ->group(base_path($file));
+            }, $this->myCustomRouteFilesWeb );
 
             //todo: Route Web App
             map(function ($file) {
