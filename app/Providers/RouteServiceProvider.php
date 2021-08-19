@@ -12,11 +12,13 @@ use function Lambdish\Phunctional\map;
 class RouteServiceProvider extends ServiceProvider
 {
     private $myCustomRouteFilesWeb = [
+        'apps/backend/restaurant/Tables/Config/routes/web.php',
         'apps/backend/restaurant/User/Config/routes/web.php',
         'routes/web.php'
     ];
 
     private $myCustomRouteFilesApi = [
+        'apps/backend/restaurant/Tables/Config/routes/api.php',
         'apps/backend/restaurant/User/Config/routes/api.php',
         'routes/api.php'
     ];
@@ -54,7 +56,7 @@ class RouteServiceProvider extends ServiceProvider
                     ->middleware('api')
                     ->namespace($this->namespace)
                     ->group(base_path($file));
-            }, $this->myCustomRouteFilesWeb );
+            }, $this->myCustomRouteFilesApi );
 
             //todo: Route Web App
             map(function ($file) {

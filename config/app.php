@@ -181,6 +181,7 @@ return [
          * Provider personality
          */
         Apps\Backend\restaurant\User\Config\providers\UserServiceProvider::class,
+        Apps\Backend\restaurant\Tables\Config\providers\TableServiceProvider::class,
     ],
 
     /*
