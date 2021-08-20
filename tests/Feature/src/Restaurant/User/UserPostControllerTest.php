@@ -10,7 +10,6 @@ use Tests\TestCase;
 
 final class UserPostControllerTest extends TestCase
 {
-
     use DatabaseTransactions;
 
     /**

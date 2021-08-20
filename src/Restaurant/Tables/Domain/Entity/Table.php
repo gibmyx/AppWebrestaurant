@@ -43,6 +43,27 @@ final class Table
         $this->updatedAt = $updatedAt;
     }
 
+    public static function FormDataBase(
+        TableId          $id,
+        TableNumber      $number,
+        TableMaxPeople   $maxPeople,
+        TableMinPeople   $minPeople,
+        TableDescription $description,
+        TableCreatedAt   $createdAt,
+        TableUpdatedAt   $updatedAt
+    ): self
+    {
+        return new self(
+            $id,
+            $number,
+            $maxPeople,
+            $minPeople,
+            $description,
+            $createdAt,
+            $updatedAt
+        );
+    }
+
     public static function create(
         TableId          $id,
         TableNumber      $number,
@@ -95,6 +116,38 @@ final class Table
     public function updatedAt(): TableUpdatedAt
     {
         return $this->updatedAt;
+    }
+
+    public function changeNumber(TableNumber $newNumber): void
+    {
+        if (! $this->number->equals($newNumber))
+            $this->updatedAt = new TableUpdatedAt();
+
+        $this->number = $newNumber;
+    }
+
+    public function changeMaxPeople(TableMaxPeople $newMaxPeople): void
+    {
+        if (! $this->maxPeople->equals($newMaxPeople))
+            $this->updatedAt = new TableUpdatedAt();
+
+        $this->maxPeople = $newMaxPeople;
+    }
+
+    public function changeMinPeople(TableMinPeople $newMinPeople): void
+    {
+        if (! $this->minPeople->equals($newMinPeople))
+            $this->updatedAt = new TableUpdatedAt();
+
+        $this->minPeople = $newMinPeople;
+    }
+
+    public function changeDescription(TableDescription $newDescription): void
+    {
+        if (! $this->description->equals($newDescription))
+            $this->updatedAt = new TableUpdatedAt();
+
+        $this->description = $newDescription;
     }
 
 }

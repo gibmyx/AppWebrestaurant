@@ -6,12 +6,12 @@ namespace Tests\Feature\src\Restaurant\Tables;
 
 use App\Models\User;
 use AppRestaurant\Restaurant\Shared\Domain\ValueObject\Uuid;
+use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\JsonResponse;
 use Tests\TestCase;
-use Faker\Factory;
 
-final class TablePostControllerTest extends TestCase
+final class TablePutControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -26,25 +26,32 @@ final class TablePostControllerTest extends TestCase
     /**
      * @test
      */
-    public function this_should_create_a_table()
+    public function this_should_update_a_table_exists()
     {
         $user = User::factory()->create();
-
         $this->actingAs($user)
             ->withSession(['banned' => false])
             ->get('/');
 
-        $uuidTable = Uuid::random()->value();
 
-        $response = $this->post("/table/{$uuidTable}", [
+        $uuidTable = Uuid::random()->value();
+        $table = [
             'id' => $uuidTable,
             'number' => 1,
-            'maxPeople' => rand(5,9),
-            'minPeople' =>  rand(2,4),
+            'maxPeople' => 5,
+            'minPeople' =>  2,
             'description' => $this->faker->text
-        ]);
+        ];
+        $this->post("/table/{$uuidTable}", $table);
 
-        $response->assertStatus(JsonResponse::HTTP_CREATED);
-        $this->assertDatabaseHas('tables', ['id' => $uuidTable]);
+        $table['maxPeople'] = 8;
+
+        $response = $this->put("/table", $table);
+
+        $response->assertStatus(JsonResponse::HTTP_OK);
+        $this->assertDatabaseHas('tables', [
+            'id' => $uuidTable,
+            'max_people' => 8,
+        ]);
     }
 }
