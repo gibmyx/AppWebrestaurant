@@ -8,6 +8,7 @@ use App\Models\User;
 use AppRestaurant\Restaurant\Shared\Domain\ValueObject\Uuid;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\JsonResponse;
 use Tests\TestCase;
 
 final class TablesGetControllerTest extends TestCase
@@ -44,6 +45,6 @@ final class TablesGetControllerTest extends TestCase
 
         $response = $this->getJson('/tables');
 
-        $this->assertTrue(true);
+        $response->assertStatus(JsonResponse::HTTP_OK);
     }
 }

@@ -10,7 +10,7 @@ use AppRestaurant\Restaurant\Tables\Application\Searcher\TablesSearcherRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-final class TableGetController extends Controller
+final class TablesGetController extends Controller
 {
     private $searcher;
 
@@ -24,7 +24,7 @@ final class TableGetController extends Controller
     public function __invoke(Request $request)
     {
         try {
-            ($this->searcher)(new TablesSearcherRequest(
+            $response = ($this->searcher)(new TablesSearcherRequest(
                 $request->all()
             ));
         } catch (\Exception $exception) {
@@ -39,7 +39,7 @@ final class TableGetController extends Controller
 
         return response()->json([
             'code' => JsonResponse::HTTP_OK,
-            'rows' => []
+            'rows' => $response->toResponse(),
         ], JsonResponse::HTTP_OK);
     }
 }
