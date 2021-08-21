@@ -15,7 +15,7 @@ use AppRestaurant\Restaurant\Tables\Domain\ValueObject\TableNumber;
 use AppRestaurant\Restaurant\Tables\Domain\ValueObject\TableUpdatedAt;
 use Illuminate\Support\Facades\DB;
 
-final class TablyMysqlRepository implements TableRepository
+final class TableMysqlRepository implements TableRepository
 {
 
     public function create(Table $table): void
@@ -65,5 +65,12 @@ final class TablyMysqlRepository implements TableRepository
                 'created_at' => $table->createdAt()->value(),
                 'updated_at' => $table->updatedAt()->value(),
             ]);
+    }
+
+    public function searcherList(array $clause): array
+    {
+        $query = DB::table(Table::TABLE);
+        $query = (new TableMySqlFilters($query))($clause);
+        return $query->get()->toArray();
     }
 }

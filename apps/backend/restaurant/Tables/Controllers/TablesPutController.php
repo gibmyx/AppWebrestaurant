@@ -7,9 +7,10 @@ namespace Apps\Backend\restaurant\Tables\Controllers;
 use App\Http\Controllers\Controller;
 use AppRestaurant\Restaurant\Tables\Application\Update\TableUpdate;
 use AppRestaurant\Restaurant\Tables\Application\Update\TableUpdateRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-final class TablePutController extends Controller
+final class TablesPutController extends Controller
 {
     const MESSAJE_UPDATE = "Table update successfully";
     private $update;
@@ -32,8 +33,18 @@ final class TablePutController extends Controller
                 (string)$request->description
             ));
         } catch (\Exception $exception) {
-
+            return response()->json([
+                'code' => $exception->getCode(),
+                'message' => $exception->getMessage(),
+                'line' => $exception->getLine(),
+                'trace' => $exception->getTrace(),
+            ],  $exception->getCode());
         }
+
+        return response()->json([
+            'code' => JsonResponse::HTTP_OK,
+            'message' => self::MESSAJE_UPDATE
+        ], JsonResponse::HTTP_OK);
     }
 
 }

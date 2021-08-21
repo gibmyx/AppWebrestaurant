@@ -17,4 +17,6 @@ interface TableRepository
 
     public function find(TableId $id): ?Table;
 
+    public function searcherList(array $clause): array;
+
 }

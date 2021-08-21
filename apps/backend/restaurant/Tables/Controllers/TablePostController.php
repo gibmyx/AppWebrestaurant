@@ -41,7 +41,7 @@ final class TablePostController extends Controller
                 'message' => $exception->getMessage(),
                 'line' => $exception->getLine(),
                 'trace' => $exception->getTrace(),
-            ], JsonResponse::HTTP_BAD_REQUEST);
+            ],  $exception->getCode());
         }
 
         return response()->json([
