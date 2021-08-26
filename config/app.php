@@ -182,6 +182,7 @@ return [
          */
         Apps\Backend\restaurant\User\Config\providers\UserServiceProvider::class,
         Apps\Backend\restaurant\Tables\Config\providers\TableServiceProvider::class,
+        Apps\Backend\restaurant\Reservations\Config\providers\ReservationServiceProvider::class,
     ],
 
     /*
