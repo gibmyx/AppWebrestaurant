@@ -24,4 +24,11 @@ final class ReservationMysqlRepository implements ReservationRepository
                 'updated_at'    => $reservation->updatedAt()->value()
             ]);
     }
+
+    public function searcherList(array $clause): array
+    {
+        $query = DB::table(Reservation::TABLE);
+        $query = (new ReservationMySqlFilters($query))($clause);
+        return $query->get()->toArray();
+    }
 }

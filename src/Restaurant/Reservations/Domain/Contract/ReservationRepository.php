@@ -11,4 +11,6 @@ use AppRestaurant\Restaurant\Reservations\Domain\Entity\Reservation;
 interface ReservationRepository
 {
     public function create(Reservation $reservation): void;
+
+    public function searcherList(array $clause): array;
 }

@@ -17,6 +17,7 @@ use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationUserId;
 
 final class Reservation
 {
+    const TABLE = "reservation";
 
     private $id;
     private $tableId;
