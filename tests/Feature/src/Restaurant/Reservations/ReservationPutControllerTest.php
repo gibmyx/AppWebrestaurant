@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-final class ReservationGetControllerTest extends TestCase
+final class ReservationPutControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
