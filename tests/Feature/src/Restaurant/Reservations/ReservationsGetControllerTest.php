@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-final class ReservationGetControllerTest extends TestCase
+final class ReservationsGetControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -42,41 +42,50 @@ final class ReservationGetControllerTest extends TestCase
     /**
      * @test
      */
-    public function this_should_update_a_reservation_exists_api()
+    public function this_should_get_the_reservation_for_user_exists()
     {
         $user = User::factory()->create();
         $this->authUser($user);
 
+
         $uuid = Uuid::random()->value();
         $uuidTable = Uuid::random()->value();
         $this->create_table($uuidTable);
-        $reservation = $this->create_reservation($uuid, $uuidTable, $user);
+        $this->create_reservation($uuid, $uuidTable, $user);
 
-        $reservation['people'] = 4;
-        $reservation['date'] = '2021-9-9 16:30:00';
-
-        $response = $this->putJson("/api/reservation", $reservation);
+        $response = $this->getJson('/api/reservations');
 
         $response->assertStatus(JsonResponse::HTTP_OK);
-        $this->assertDatabaseHas('reservation', [
-            'id' => $uuid,
-            'peoples' => 4,
-        ]);
     }
 
-    private function create_reservation(string $uuid, string $uuidTable, User $user): array
+    /**
+     * @test
+     */
+    public function this_should_get_the_reservation_exists()
     {
-        $reserva = [
+        $user = User::factory()->create();
+        $this->authUser($user);
+
+
+        $uuid = Uuid::random()->value();
+        $uuidTable = Uuid::random()->value();
+        $this->create_table($uuidTable);
+        $this->create_reservation($uuid, $uuidTable, $user);
+
+        $response = $this->getJson('/api/reservations');
+
+        $response->assertStatus(JsonResponse::HTTP_OK);
+    }
+
+    private function create_reservation(string $uuid, string $uuidTable, User $user): void
+    {
+        $this->postJson("/api/reservation/{$uuid}", [
             'id' => $uuid,
             'tableId' => $uuidTable,
             'userId' => $user->id,
             'people' => 6,
             'date' => '2021-8-9 16:30:00',
-        ];
-
-        $this->postJson("/api/reservation/{$uuid}", $reserva);
-
-        return $reserva;
+        ]);
     }
 
     private function create_table(string $uuidTable): void
@@ -89,6 +98,5 @@ final class ReservationGetControllerTest extends TestCase
             'description' => $this->faker->text
         ]);
     }
-
 
 }

@@ -8,7 +8,6 @@ namespace AppRestaurant\Restaurant\Reservations\Domain\Entity;
 
 use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationCreatedAt;
 use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationDate;
-use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationHours;
 use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationId;
 use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationPeoples;
 use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationTableId;
@@ -65,6 +64,27 @@ final class Reservation
         );
     }
 
+    public static function FormDataBase(
+        ReservationId        $id,
+        ReservationTableId   $tableId,
+        ReservationUserId   $userId,
+        ReservationPeoples   $peoples,
+        ReservationDate      $date,
+        ReservationCreatedAt $createdAt,
+        ReservationUpdatedAt $updatedAt
+    ): self
+    {
+        return new self(
+            $id,
+            $tableId,
+            $userId,
+            $peoples,
+            $date,
+            $createdAt,
+            $updatedAt,
+        );
+    }
+
     public function id(): ReservationId
     {
         return $this->id;
@@ -98,5 +118,29 @@ final class Reservation
     public function updatedAt(): ReservationUpdatedAt
     {
         return $this->updatedAt;
+    }
+
+    public function changeTable(ReservationTableId $newTable): void
+    {
+        if (! $this->tableId->equals($newTable))
+            $this->updatedAt = new ReservationUpdatedAt();
+
+        $this->tableId = $newTable;
+    }
+
+    public function changePeoples(ReservationPeoples $newPeoples): void
+    {
+        if (! $this->peoples->equals($newPeoples))
+            $this->updatedAt = new ReservationUpdatedAt();
+
+        $this->peoples = $newPeoples;
+    }
+
+    public function changeDate(ReservationDate $newDate): void
+    {
+        if (! $this->date->equals($newDate))
+            $this->updatedAt = new ReservationUpdatedAt();
+
+        $this->date = $newDate;
     }
 }
