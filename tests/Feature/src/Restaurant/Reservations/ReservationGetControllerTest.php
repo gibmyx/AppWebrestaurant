@@ -9,6 +9,7 @@ use AppRestaurant\Restaurant\Shared\Domain\ValueObject\Uuid;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\JsonResponse;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 final class ReservationGetControllerTest extends TestCase
@@ -28,13 +29,40 @@ final class ReservationGetControllerTest extends TestCase
         $this->actingAs($user)
             ->withSession(['banned' => false])
             ->get('/');
+    }
 
+
+    private function authUserApi(User $user)
+    {
+        Sanctum::actingAs(
+            $user,
+            ['view-tasks']
+        );
     }
 
     /**
      * @test
      */
     public function this_should_get_the_reservation_for_user_exists()
+    {
+        $user = User::factory()->create();
+        $this->authUser($user);
+
+
+        $uuid = Uuid::random()->value();
+        $uuidTable = Uuid::random()->value();
+        $this->create_table($uuidTable);
+        $this->create_reservation($uuid, $uuidTable, $user);
+
+        $response = $this->getJson('/api/reservations');
+
+        $response->assertStatus(JsonResponse::HTTP_OK);
+    }
+
+    /**
+     * @test
+     */
+    public function this_should_get_the_reservation_exists()
     {
         $user = User::factory()->create();
         $this->authUser($user);
