@@ -12,6 +12,7 @@ use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationDate;
 use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationId;
 use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationPeoples;
 use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationTableId;
+use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationUserId;
 
 final class ReservationCreate
 {
@@ -29,6 +30,7 @@ final class ReservationCreate
         $reservation = Reservation::create(
             new ReservationId($request->id()),
             new ReservationTableId($request->tableId()),
+            new ReservationUserId($request->userId()),
             new ReservationPeoples($request->people()),
             new ReservationDate($request->date())
         );

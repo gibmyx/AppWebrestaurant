@@ -29,6 +29,7 @@ final class ReservationPostController extends Controller
             ($this->create)(new ReservationCreateRequest(
                 $id,
                 (string)$request->tableId,
+                (int)$request->userId,
                 (int)$request->people,
                 (string)$request->date,
             ));

@@ -17,6 +17,7 @@ final class ReservationMysqlRepository implements ReservationRepository
             ->insert([
                 'id'            => $reservation->id()->value(),
                 'table_id'      => $reservation->tableId()->value(),
+                'user_id'      => $reservation->userId()->value(),
                 'peoples'       => $reservation->peoples()->value(),
                 'date'          => $reservation->date()->value(),
                 'created_at'    => $reservation->createdAt()->value(),

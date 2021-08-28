@@ -13,12 +13,14 @@ use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationId;
 use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationPeoples;
 use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationTableId;
 use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationUpdatedAt;
+use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationUserId;
 
 final class Reservation
 {
 
     private $id;
     private $tableId;
+    private $userId;
     private $peoples;
     private $date;
     private $createdAt;
@@ -27,6 +29,7 @@ final class Reservation
     private function __construct(
         ReservationId        $id,
         ReservationTableId   $tableId,
+        ReservationUserId   $userId,
         ReservationPeoples   $peoples,
         ReservationDate      $date,
         ReservationCreatedAt $createdAt,
@@ -35,6 +38,7 @@ final class Reservation
     {
         $this->id = $id;
         $this->tableId = $tableId;
+        $this->userId = $userId;
         $this->peoples = $peoples;
         $this->date = $date;
         $this->createdAt = $createdAt;
@@ -42,15 +46,17 @@ final class Reservation
     }
 
     public static function create(
-        ReservationId        $id,
-        ReservationTableId   $tableId,
-        ReservationPeoples   $peoples,
-        ReservationDate      $date
+        ReservationId      $id,
+        ReservationTableId $tableId,
+        ReservationUserId  $userId,
+        ReservationPeoples $peoples,
+        ReservationDate    $date
     ): self
     {
         return new self(
             $id,
             $tableId,
+            $userId,
             $peoples,
             $date,
             new ReservationCreatedAt(),
@@ -66,6 +72,11 @@ final class Reservation
     public function tableId(): ReservationTableId
     {
         return $this->tableId;
+    }
+
+    public function userId(): ReservationUserId
+    {
+        return $this->userId;
     }
 
     public function peoples(): ReservationPeoples

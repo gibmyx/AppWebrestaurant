@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
-final class ReservationPostControllersTest extends TestCase
+final class ReservationPostControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
@@ -29,8 +29,9 @@ final class ReservationPostControllersTest extends TestCase
      */
     public function this_should_create_a_reservation()
     {
+        $user = User::factory()->create();
         Sanctum::actingAs(
-            User::factory()->create(),
+            $user,
             ['view-tasks']
         );
 
@@ -41,6 +42,7 @@ final class ReservationPostControllersTest extends TestCase
         $reservation = [
             'id' => $uuid,
             'tableId' => $uuidTable,
+            'userId' => $user->id,
             'people' => 6,
             'date' => '2021-8-9 16:30:00',
         ];
