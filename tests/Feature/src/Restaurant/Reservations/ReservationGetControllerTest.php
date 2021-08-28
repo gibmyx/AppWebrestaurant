@@ -64,6 +64,31 @@ final class ReservationGetControllerTest extends TestCase
         ]);
     }
 
+    /**
+     * @test
+     */
+    public function this_should_valitadion_a_reservation_what_not_exists_api()
+    {
+        $user = User::factory()->create();
+        $this->authUser($user);
+
+        $uuid = Uuid::random()->value();
+        $uuidTable = Uuid::random()->value();
+        $this->create_table($uuidTable);
+        $reservation = $this->create_reservation($uuid, $uuidTable, $user);
+
+        $reservation['id'] = Uuid::random()->value();
+        $reservation['people'] = 4;
+        $reservation['date'] = '2021-9-9 16:30:00';
+
+        $response = $this->putJson("/api/reservation", $reservation);
+
+        $response->assertStatus(JsonResponse::HTTP_NOT_FOUND);
+        $response->assertJson([
+            'message' => 'Reservation not exists'
+        ]);
+    }
+
     private function create_reservation(string $uuid, string $uuidTable, User $user): array
     {
         $reserva = [

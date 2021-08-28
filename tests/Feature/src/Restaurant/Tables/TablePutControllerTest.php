@@ -54,4 +54,35 @@ final class TablePutControllerTest extends TestCase
             'max_people' => 8,
         ]);
     }
+
+    /**
+     * @test
+     */
+    public function this_should_validate_a_table_what_not_exists_exists()
+    {
+        $user = User::factory()->create();
+        $this->actingAs($user)
+            ->withSession(['banned' => false])
+            ->get('/');
+
+        $uuidTable = Uuid::random()->value();
+        $table = [
+            'id' => $uuidTable,
+            'number' => 1,
+            'maxPeople' => 5,
+            'minPeople' =>  2,
+            'description' => $this->faker->text
+        ];
+        $this->post("/table/{$uuidTable}", $table);
+
+        $table['id'] = Uuid::random()->value();
+        $table['maxPeople'] = 8;
+
+        $response = $this->put("/table", $table);
+
+        $response->assertStatus(JsonResponse::HTTP_NOT_FOUND);
+        $response->assertJson([
+           "message" => 'Table not exists'
+        ]);
+    }
 }

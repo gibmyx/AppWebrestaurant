@@ -23,6 +23,9 @@ final class ReservationFinder
     {
         $reservation = $this->repository->find($id);
 
+        if(empty($reservation))
+            throw new ReservationNotExistsException();
+
         return $reservation;
     }
 

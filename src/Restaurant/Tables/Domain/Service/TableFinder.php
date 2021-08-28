@@ -25,6 +25,9 @@ final class TableFinder
     {
         $table = $this->repository->find($id);
 
+        if(empty($table))
+            throw new TableNotExistsException();
+
         return $table;
     }
 
