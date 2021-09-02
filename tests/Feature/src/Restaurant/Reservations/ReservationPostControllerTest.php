@@ -48,6 +48,9 @@ final class ReservationPostControllerTest extends TestCase
         ];
         $response = $this->postJson("/api/reservation/{$uuid}", $reservation);
 
+        dd(
+          $response->getContent()
+        );
         $response->assertStatus(JsonResponse::HTTP_CREATED);
         $this->assertDatabaseHas('reservation', ['id' => $uuid]);
     }

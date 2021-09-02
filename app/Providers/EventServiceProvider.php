@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\PruebaEvent;
+use App\Listeners\PruebaListener;
+use AppRestaurant\Restaurant\Reservations\Application\Subscriber\ReservationCreatedToCreateConfirmation;
+use AppRestaurant\Restaurant\Reservations\Domain\Event\ReservationCreated;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -17,6 +21,12 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        PruebaEvent::class => [
+            PruebaListener::class,
+        ],
+        ReservationCreated::class => [
+            ReservationCreatedToCreateConfirmation::class,
         ],
     ];
 

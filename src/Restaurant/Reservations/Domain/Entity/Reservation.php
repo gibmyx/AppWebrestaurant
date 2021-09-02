@@ -2,19 +2,20 @@
 
 declare(strict_types=1);
 
-
 namespace AppRestaurant\Restaurant\Reservations\Domain\Entity;
 
-
-use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationCreatedAt;
-use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationDate;
+use AppRestaurant\Restaurant\Reservations\Domain\Event\ReservationCreated;
 use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationId;
-use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationPeoples;
-use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationTableId;
-use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationUpdatedAt;
+use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationDate;
 use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationUserId;
+use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationTableId;
+use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationPeoples;
+use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationCreatedAt;
+use AppRestaurant\Restaurant\Reservations\Domain\ValueObject\ReservationUpdatedAt;
 
-final class Reservation
+use AppRestaurant\Restaurant\Shared\Domain\AggregateRoot\AggregateRoot;
+
+final class Reservation extends AggregateRoot
 {
     const TABLE = "reservation";
 
@@ -53,7 +54,7 @@ final class Reservation
         ReservationDate    $date
     ): self
     {
-        return new self(
+        $reservation = new self(
             $id,
             $tableId,
             $userId,
@@ -62,6 +63,10 @@ final class Reservation
             new ReservationCreatedAt(),
             new ReservationUpdatedAt()
         );
+
+        $reservation->record(new ReservationCreated($id->value()));
+
+        return $reservation;
     }
 
     public static function FormDataBase(
