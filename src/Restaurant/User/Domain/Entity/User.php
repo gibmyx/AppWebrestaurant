@@ -63,6 +63,27 @@ final class User
         );
     }
 
+    public static function FormDataBase(
+        UserId $id,
+        UserName $name,
+        UserEmail $email,
+        UserPassword $password,
+        UserOrigin $origin,
+        UserCreatedAt $createdAt,
+        UserUpdatedAt $updateAt
+    ): self
+    {
+        return new self(
+            $id,
+            $name,
+            $email,
+            $password,
+            $origin,
+            $createdAt,
+            $updateAt
+        );
+    }
+
     public function id(): UserId
     {
         return $this->id;
