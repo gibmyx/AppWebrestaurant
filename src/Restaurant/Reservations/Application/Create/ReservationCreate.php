@@ -40,15 +40,9 @@ final class ReservationCreate
             new ReservationDate($request->date())
         );
 
-        $event = new PruebaEvent("Gibmyx");
-
-//        $event->execute();
-
-
         $this->repository->create($reservation);
 
         $this->bus->publish(...$reservation->pullDomainEvents());
-        dd('stop');
     }
 
 }
