@@ -18,6 +18,5 @@ final class ReservationCreatedToCreateConfirmation implements DomainEventSubscri
 
     public static function handle(DomainEvent $event): void
     {
-        dd('Events created');
     }
 }
